@@ -1,0 +1,13 @@
+This query will answer the following two questions:
+	When considering average spend from receipts with 'rewardsReceiptStatus’ of ‘Accepted’ or ‘Rejected’, which is greater?
+	When considering total number of items purchased from receipts with 'rewardsReceiptStatus’ of ‘Accepted’ or ‘Rejected’, which is greater?
+
+
+select sum(case when rewardsReceiptStatus = 'Accepted' then totalSpent else 0) end / 
+		sum(case when rewardsReceiptStatus = 'Accepted' then 1 else 0) end as Average_Spend_Accepted,
+	sum(case when rewardsReceiptStatus = 'Rejected' then totalSpent else 0) end / 
+		sum(case when rewardsReceiptStatus = 'Rejected' then 1 else 0) end as Average_Spend_Rejected,
+	sum(case when rewardsReceiptStatus = 'Accepted' then purchasedItemCount else 0) end as Total_Accepted_Items,
+	sum(case when rewardsReceiptStatus = 'Rejected' then purchasedItemCount else 0) end as Total_Rejected_Items
+from Brands
+where rewardsReceiptStatus in = ('Accepted', 'Rejected')
